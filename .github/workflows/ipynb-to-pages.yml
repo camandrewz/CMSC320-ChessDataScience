@@ -33,20 +33,10 @@ jobs:
       run: |
         pip install jupyter-book
 
-    # Create table of contents file
-    - name: Create Table of Contents
-      run: |
-        jupyter-book toc from-project . > _toc.yml
-
-    # Create book
-    - name: Create Jupyter Book
-      run: |
-        jupyter-book create ChessDataScience --content-folder . --toc _toc.yml
-
     # Build the book
     - name: Build the book
       run: |
-        jupyter-book build ChessDataScience
+        jupyter-book build .
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action

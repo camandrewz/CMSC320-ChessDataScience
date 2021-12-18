@@ -1,5 +1,5 @@
 # Ignore non split data directory
 Non-Split-Data/
 
-# Ignore data file specifically
-Non-Split-Data/chess_data.csv
+# Ignore Stockfish Directory
+stockfish_14.1_win_x64_avx2/

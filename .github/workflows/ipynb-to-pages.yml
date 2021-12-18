@@ -33,11 +33,6 @@ jobs:
       run: |
         pip install jupyter-book
 
-    # Create Table of Contents
-    - name: Create Table of Contents
-      run: |
-        jupyter-book toc from-project .
-
     # Build the book
     - name: Build the book
       run: |

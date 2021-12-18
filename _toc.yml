@@ -1,2 +1,6 @@
 format: jb-book
-root: chess_idea
+root: index
+defaults:  # The defaults key will be applied to all chapters and sub-sections
+  titlesonly: True
+chapters:
+- file: chess_idea.html

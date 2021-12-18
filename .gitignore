@@ -1,0 +1,5 @@
+# Ignore non split data directory
+Non-Split-Data/
+
+# Ignore data file specifically
+Non-Split-Data/chess_data.csv

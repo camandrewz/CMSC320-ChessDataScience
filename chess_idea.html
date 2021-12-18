@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&lt;no title&gt; &#8212; My Jupyter Book</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">My Jupyter Book</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="README.html">
+   CMSC320-ChessDataScience
+  </a>
+ </li>
+</ul>
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/chess_idea.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/chess_idea.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <p><strong>Upsetting Chess Data Analysis! (WARNING: SAD)</strong></p>
+<p><strong>Cameron Andrews</strong></p>
+<p><strong>Introduction:</strong></p>
+<p>This aim of this project is to explore an interesting phenomenon within the world of chess, yet it will not focus on any human chess players. Instead this project will focus on chess matches between two opposing chess engines, of different and randomly selected ELO ratings.</p>
+<p>At first you may believe that the chess engine with a higher ELO rating would always win, simply because chess is known to be a game of perfect information, and therefore the more skilled engine should win against a lesser skilled engine every time. However, by simulating thousands of games under these circumstances, it is noticeable that this is not the case, and that even when there is a large discrepancy amongst the two ELOs, an upset is still possible. This project will aim to analyze the occurrence of upsets between chess engines, and determine whether there may be telling signs of when an upset is possible, and perhaps even train a model to become the upset master.</p>
+<p>But first, we must gather the data!</p>
+<p><strong>Data Creation:</strong></p>
+<p>This project will utilize a famous chess engine called “Stockfish”, and in the process we will create two different engines; one to play the white pieces, and one for the black pieces. At the beginning of each simulation we will randomly select an ELO rating between 200 and 2500 for each engine. For reference, the highest ranked human chess player in the world, Magnus Carlsen, currently has an ELO floating around 2800.</p>
+<p>First, in order to run this script you will need to have access to the Stockfish executable (Downloadable from their website &#64; <a class="reference external" href="https://stockfishchess.org/download">https://stockfishchess.org/download</a>). After downloading, you will need to specify the executable path as seen in the code below.</p>
+<p>After that you should be able to run this script and generate your own chess data to analyze. However, this script takes several hours to run, and therefore the script will first check to see whether this data has already been created as a CSV file, and use that instead.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chess</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">stockfish</span> <span class="kn">import</span> <span class="n">Stockfish</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+<span class="n">preexisting_data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;Data/chess_data_*.csv&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">preexisting_data_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+    <span class="c1"># Set the number of simulations to run.</span>
+    <span class="n">NUM_SIMS</span> <span class="o">=</span> <span class="mi">50000</span>
+    <span class="n">chess_df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FEN&quot;</span><span class="p">,</span> <span class="s2">&quot;MOVES_DF&quot;</span><span class="p">,</span> <span class="s2">&quot;NUM_MOVE_PAIRS&quot;</span><span class="p">,</span> <span class="s2">&quot;RESULT&quot;</span><span class="p">,</span> <span class="s2">&quot;WINNER&quot;</span><span class="p">,</span> <span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">,</span> <span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">,</span> <span class="s2">&quot;UPSET&quot;</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_SIMS</span><span class="p">):</span>
+
+        <span class="c1"># Configure Two StockFish Chess Engines of unique ELO ratings that will fight eachother</span>
+        <span class="n">white_stockfish</span> <span class="o">=</span> <span class="n">Stockfish</span><span class="p">(</span><span class="s2">&quot;stockfish_14.1_win_x64_avx2/stockfish_14.1_win_x64_avx2.exe&quot;</span><span class="p">)</span>
+        <span class="n">white_elo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">2500</span><span class="p">))</span>
+        <span class="n">white_stockfish</span><span class="o">.</span><span class="n">set_elo_rating</span><span class="p">(</span><span class="n">white_elo</span><span class="p">)</span>
+
+        <span class="n">black_stockfish</span> <span class="o">=</span> <span class="n">Stockfish</span><span class="p">(</span><span class="s2">&quot;stockfish_14.1_win_x64_avx2/stockfish_14.1_win_x64_avx2.exe&quot;</span><span class="p">)</span>
+        <span class="n">black_elo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">2500</span><span class="p">))</span>
+        <span class="n">black_stockfish</span><span class="o">.</span><span class="n">set_elo_rating</span><span class="p">(</span><span class="n">black_elo</span><span class="p">)</span>
+
+        <span class="c1"># Initializing a new chess board</span>
+        <span class="n">board</span> <span class="o">=</span> <span class="n">chess</span><span class="o">.</span><span class="n">Board</span><span class="p">()</span>
+
+        <span class="c1"># Creating a new DataFrame to Keep track of all moves in the game</span>
+        <span class="n">moves_df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FEN_BEFORE_MOVE&quot;</span><span class="p">,</span> <span class="s2">&quot;MOVE_MADE&quot;</span><span class="p">,</span> <span class="s2">&quot;TURN&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Making moves until the game ends</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">board</span><span class="o">.</span><span class="n">is_game_over</span><span class="p">():</span>
+            <span class="n">white_stockfish</span><span class="o">.</span><span class="n">set_fen_position</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">fen</span><span class="p">())</span>
+            <span class="n">white_next_move</span> <span class="o">=</span> <span class="n">white_stockfish</span><span class="o">.</span><span class="n">get_best_move</span><span class="p">()</span>
+
+            <span class="c1"># Appending the current move to a separate DataFrame that tracks all moves made throughout a game</span>
+            <span class="n">moves_df</span> <span class="o">=</span> <span class="n">moves_df</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;FEN_BEFORE_MOVE&quot;</span><span class="p">:</span> <span class="n">board</span><span class="o">.</span><span class="n">fen</span><span class="p">(),</span> <span class="s2">&quot;TURN&quot;</span><span class="p">:</span> <span class="s2">&quot;WHITE&quot;</span><span class="p">,</span> <span class="s2">&quot;MOVE_MADE&quot;</span><span class="p">:</span> <span class="n">white_next_move</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">push_uci</span><span class="p">(</span><span class="n">white_stockfish</span><span class="o">.</span><span class="n">get_best_move</span><span class="p">())</span>
+
+            <span class="n">black_stockfish</span><span class="o">.</span><span class="n">set_fen_position</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">fen</span><span class="p">())</span>
+            <span class="n">black_next_move</span> <span class="o">=</span> <span class="n">black_stockfish</span><span class="o">.</span><span class="n">get_best_move</span><span class="p">()</span>
+
+            <span class="c1"># Must check if the game is already over before proceeding</span>
+            <span class="k">if</span> <span class="n">black_next_move</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Appending the current move to a separate DataFrame that tracks all moves made throughout a game</span>
+                <span class="n">moves_df</span> <span class="o">=</span> <span class="n">moves_df</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;FEN_BEFORE_MOVE&quot;</span><span class="p">:</span> <span class="n">board</span><span class="o">.</span><span class="n">fen</span><span class="p">(),</span> <span class="s2">&quot;TURN&quot;</span><span class="p">:</span> <span class="s2">&quot;BLACK&quot;</span><span class="p">,</span> <span class="s2">&quot;MOVE_MADE&quot;</span><span class="p">:</span> <span class="n">black_next_move</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">push_uci</span><span class="p">(</span><span class="n">black_next_move</span><span class="p">)</span>
+
+        <span class="c1"># Cleaning the string containing the game&#39;s outcome</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">outcome</span><span class="p">(</span><span class="n">claim_draw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">termination</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Termination.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Checks the results of the game and sets a few different variables accordingly</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;CHECKMATE&quot;</span><span class="p">:</span>
+
+            <span class="n">upset</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">outcome</span><span class="p">(</span><span class="n">claim_draw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">winner</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">winner</span> <span class="o">=</span> <span class="s2">&quot;WHITE&quot;</span>
+
+                <span class="k">if</span> <span class="n">white_elo</span> <span class="o">&lt;</span> <span class="n">black_elo</span><span class="p">:</span>
+                    <span class="n">upset</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">winner</span> <span class="o">=</span> <span class="s2">&quot;BLACK&quot;</span>
+
+                <span class="k">if</span> <span class="n">black_elo</span> <span class="o">&lt;</span> <span class="n">white_elo</span><span class="p">:</span>
+                    <span class="n">upset</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">upset</span> <span class="o">=</span> <span class="s2">&quot;N/A&quot;</span>
+
+        <span class="c1"># Adds the game data to the main chess_df DataFrame</span>
+        <span class="n">chess_df</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;FEN&quot;</span><span class="p">:</span> <span class="n">board</span><span class="o">.</span><span class="n">fen</span><span class="p">(),</span> <span class="s2">&quot;MOVES_DF&quot;</span><span class="p">:</span> <span class="n">moves_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(),</span> <span class="s2">&quot;NUM_MOVE_PAIRS&quot;</span><span class="p">:</span> <span class="n">board</span><span class="o">.</span><span class="n">fullmove_number</span><span class="p">,</span> <span class="s2">&quot;RESULT&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
+             <span class="s2">&quot;WINNER&quot;</span><span class="p">:</span> <span class="n">winner</span><span class="p">,</span> <span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">:</span> <span class="n">white_elo</span><span class="p">,</span> <span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">:</span> <span class="n">black_elo</span><span class="p">,</span> <span class="s2">&quot;UPSET&quot;</span><span class="p">:</span> <span class="n">upset</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Writes the DataFrame to a CSV file</span>
+    <span class="n">chess_df_1</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10000</span><span class="p">]</span>
+    <span class="n">chess_df_2</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">10000</span><span class="p">:</span><span class="mi">20000</span><span class="p">]</span>
+    <span class="n">chess_df_3</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">20000</span><span class="p">:</span><span class="mi">30000</span><span class="p">]</span>
+    <span class="n">chess_df_4</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">30000</span><span class="p">:</span><span class="mi">40000</span><span class="p">]</span>
+    <span class="n">chess_df_5</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">40000</span><span class="p">:</span><span class="mi">50000</span><span class="p">]</span>
+
+    <span class="n">chess_df_1</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_1.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_2</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_2.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_3.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_4</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_4.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_5</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_5.csv&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+
+    <span class="n">chess_df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">preexisting_data_files</span><span class="p">:</span>
+        <span class="c1"># Reading preexisting moves generated from an earlier simulation</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">chess_df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">chess_df</span><span class="p">,</span> <span class="n">temp_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Dropping the index column as it is repetitive</span>
+    <span class="n">chess_df</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+
+<span class="n">new_moves_column</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># A little extra work has to be done to restore the moves of each game as a separate DataFrame per row</span>
+<span class="k">for</span> <span class="n">fen</span><span class="p">,</span> <span class="n">moves</span><span class="p">,</span> <span class="n">num_move_pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">winner</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">upset</span> <span class="ow">in</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+    <span class="n">csv_string</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
+    <span class="n">moves_df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_string</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">moves_df</span> <span class="o">=</span> <span class="n">moves_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="n">new_moves_column</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moves_df</span><span class="p">)</span>
+
+<span class="c1"># Replacing old column continaing CSV strings with new column containing Pandas DataFrames</span>
+<span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;MOVES_DF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_moves_column</span>
+
+<span class="c1"># Outputting the DataFrame</span>
+<span class="n">chess_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Data\\chess_data_1.csv&#39;, &#39;Data\\chess_data_2.csv&#39;, &#39;Data\\chess_data_3.csv&#39;, &#39;Data\\chess_data_4.csv&#39;, &#39;Data\\chess_data_5.csv&#39;]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FEN</th>
+      <th>MOVES_DF</th>
+      <th>NUM_MOVE_PAIRS</th>
+      <th>RESULT</th>
+      <th>WINNER</th>
+      <th>WHITE_ELO</th>
+      <th>BLACK_ELO</th>
+      <th>UPSET</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8/3Q4/3Q3k/4p1pp/PR2R2P/6P1/5KB1/8 b - - 0 51</td>
+      <td>FEN_BEF...</td>
+      <td>51</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>661</td>
+      <td>1196</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3kN3/8/8/6K1/b7/8/8/8 w - - 121 158</td>
+      <td>FEN_BEF...</td>
+      <td>158</td>
+      <td>FIVEFOLD_REPETITION</td>
+      <td>NaN</td>
+      <td>1015</td>
+      <td>598</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5k2/8/1K4Q1/8/1B6/8/4n3/8 b - - 5 106</td>
+      <td>FEN_BEF...</td>
+      <td>106</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>915</td>
+      <td>1157</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4Qk1r/2q3b1/p2N2P1/2P2bBp/1P1n4/P1p5/R4PB1/4K3...</td>
+      <td>FEN_BEFO...</td>
+      <td>37</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>264</td>
+      <td>639</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>8/p6Q/P1Q2k2/R7/4p1p1/4P3/3K4/8 b - - 1 64</td>
+      <td>FEN_BEF...</td>
+      <td>64</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>241</td>
+      <td>1125</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>49995</th>
+      <td>8/8/4R3/6k1/r3p2p/4K3/1pr5/4r3 w - - 3 61</td>
+      <td>FEN_BEF...</td>
+      <td>61</td>
+      <td>CHECKMATE</td>
+      <td>BLACK</td>
+      <td>741</td>
+      <td>1012</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>49996</th>
+      <td>7k/3PQ2Q/4p1r1/4Pp1p/5P2/3R3P/4R1p1/4Q1K1 b - ...</td>
+      <td>FEN_BEF...</td>
+      <td>102</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>2401</td>
+      <td>1613</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>49997</th>
+      <td>Q7/4Q1kp/6p1/4N1P1/2p1p3/2P5/6P1/1B3RK1 b - - ...</td>
+      <td>FEN_BEF...</td>
+      <td>55</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>2107</td>
+      <td>303</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>49998</th>
+      <td>7r/4Q2p/p5p1/1b5k/1p4N1/P5N1/2P1BPPP/3K3R b - ...</td>
+      <td>FEN_BEFO...</td>
+      <td>35</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>1532</td>
+      <td>2036</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>49999</th>
+      <td>8/p2r2rk/7p/P7/Q4P2/8/4bn1P/7K w - - 3 51</td>
+      <td>FEN_BEFO...</td>
+      <td>51</td>
+      <td>CHECKMATE</td>
+      <td>BLACK</td>
+      <td>1696</td>
+      <td>2062</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>50000 rows × 8 columns</p>
+</div></div></div>
+</div>
+<p><strong>What Now?</strong></p>
+<p>So now that we have a Pandas DataFrame containing the results of our simulation, we can begin to explore the data and determine whether there are any common traits amongst games that ended in an upset.</p>
+<p>But first, we must determine whether there are any upsets at all, and what percentage of matches ended in an upset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ratio of Total Games that Ended in an Upset:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ended in Upset:&quot;</span><span class="p">,</span> <span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;UPSET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="kc">True</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t End in Upset:&quot;</span><span class="p">,</span> <span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;UPSET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="kc">False</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">percentage</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;UPSET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span>
+                   <span class="kc">True</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">chess_df</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Percentage of Total Games that Ended in Upset: </span><span class="si">{</span><span class="n">percentage</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ratio of Total Games that Ended in an Upset:
+Ended in Upset: 16822
+Didn&#39;t End in Upset: 31286 
+
+Percentage of Total Games that Ended in Upset: 33.644 %
+</pre></div>
+</div>
+</div>
+</div>
+<p>Clearly it appears that a fairly significant number of games end up in an upset, even when it is essentially two computers battling it out. Here’s an example of specific moves from a game.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fen</span><span class="p">,</span> <span class="n">moves</span><span class="p">,</span> <span class="n">num_move_pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">winner</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">upset</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">moves</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FEN_BEFORE_MOVE</th>
+      <th>MOVE_MADE</th>
+      <th>TURN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w ...</td>
+      <td>g1f3</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>rnbqkbnr/pppppppp/8/8/8/6P1/PPPPPP1P/RNBQKBNR ...</td>
+      <td>c7c5</td>
+      <td>BLACK</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>rnbqkbnr/pp1ppppp/8/2p5/8/6P1/PPPPPP1P/RNBQKBN...</td>
+      <td>c2c4</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>rnbqkbnr/pp1ppppp/8/2p5/2P5/6P1/PP1PPP1P/RNBQK...</td>
+      <td>g7g6</td>
+      <td>BLACK</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>rnbqkbnr/pp1ppp1p/6p1/2p5/2P5/6P1/PP1PPP1P/RNB...</td>
+      <td>f1g2</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>8/1P1Q4/3p2pk/4pp1p/PR2P2P/6P1/4RKB1/8 w - - 2 49</td>
+      <td>b7b8q</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>1Q6/3Q4/3p2pk/4pp1p/PR2P2P/6P1/4RKB1/8 b - - 0 49</td>
+      <td>f5e4</td>
+      <td>BLACK</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>1Q6/3Q4/3p2pk/4p2p/PR2p2P/6P1/4RKB1/8 w - - 0 50</td>
+      <td>g2e4</td>
+      <td>WHITE</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>1Q6/3Q4/3p2pk/4p2p/PR2R2P/6P1/5KB1/8 b - - 0 50</td>
+      <td>g6g5</td>
+      <td>BLACK</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>1Q6/3Q4/3p3k/4p1pp/PR2R2P/6P1/5KB1/8 w - - 0 51</td>
+      <td>b8f8</td>
+      <td>WHITE</td>
+    </tr>
+  </tbody>
+</table>
+<p>101 rows × 3 columns</p>
+</div></div></div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By The Jupyter Book community<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -282,11 +282,11 @@
     <span class="n">chess_df_4</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">30000</span><span class="p">:</span><span class="mi">40000</span><span class="p">]</span>
     <span class="n">chess_df_5</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">40000</span><span class="p">:</span><span class="mi">50000</span><span class="p">]</span>
 
-    <span class="n">chess_df_1</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_1.csv&quot;</span><span class="p">)</span>
-    <span class="n">chess_df_2</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_2.csv&quot;</span><span class="p">)</span>
-    <span class="n">chess_df_3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_3.csv&quot;</span><span class="p">)</span>
-    <span class="n">chess_df_4</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_4.csv&quot;</span><span class="p">)</span>
-    <span class="n">chess_df_5</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;chess_data_5.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_1</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Data/chess_data_1.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_2</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Data/chess_data_2.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Data/chess_data_3.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_4</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Data/chess_data_4.csv&quot;</span><span class="p">)</span>
+    <span class="n">chess_df_5</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Data/chess_data_5.csv&quot;</span><span class="p">)</span>
 
 <span class="k">else</span><span class="p">:</span>
 
@@ -482,8 +482,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ratio of Total Games that Ended in an Upset:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ended in Upset:&quot;</span><span class="p">,</span> <span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;UPSET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="kc">True</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t End in Upset:&quot;</span><span class="p">,</span> <span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;UPSET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="kc">False</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">percentage</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;UPSET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span>
-                   <span class="kc">True</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">chess_df</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">percentage</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;UPSET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="kc">True</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">chess_df</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Percentage of Total Games that Ended in Upset: </span><span class="si">{</span><span class="n">percentage</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
 </pre></div>
 </div>

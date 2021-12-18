@@ -38,10 +38,15 @@ jobs:
       run: |
         jupyter-book toc from-project . > _toc.yml
 
+    # Create book
+    - name: Create Jupyter Book
+      run: |
+        jupyter-book create ChessDataScience --content-folder . --toc _toc.yml
+
     # Build the book
     - name: Build the book
       run: |
-        jupyter-book build .
+        jupyter-book build ChessDataScience
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action

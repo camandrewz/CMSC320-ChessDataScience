@@ -319,9 +319,6 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Data\\chess_data_1.csv&#39;, &#39;Data\\chess_data_2.csv&#39;, &#39;Data\\chess_data_3.csv&#39;, &#39;Data\\chess_data_4.csv&#39;, &#39;Data\\chess_data_5.csv&#39;]
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -502,110 +499,6 @@ Percentage of Total Games that Ended in Upset: 33.644 %
 </div>
 </div>
 <p>Clearly it appears that a fairly significant number of games end up in an upset, even when it is essentially two computers battling it out. Here’s an example of specific moves from a game.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fen</span><span class="p">,</span> <span class="n">moves</span><span class="p">,</span> <span class="n">num_move_pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">winner</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">upset</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="n">moves</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>FEN_BEFORE_MOVE</th>
-      <th>MOVE_MADE</th>
-      <th>TURN</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w ...</td>
-      <td>g1f3</td>
-      <td>WHITE</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>rnbqkbnr/pppppppp/8/8/8/6P1/PPPPPP1P/RNBQKBNR ...</td>
-      <td>c7c5</td>
-      <td>BLACK</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>rnbqkbnr/pp1ppppp/8/2p5/8/6P1/PPPPPP1P/RNBQKBN...</td>
-      <td>c2c4</td>
-      <td>WHITE</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>rnbqkbnr/pp1ppppp/8/2p5/2P5/6P1/PP1PPP1P/RNBQK...</td>
-      <td>g7g6</td>
-      <td>BLACK</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>rnbqkbnr/pp1ppp1p/6p1/2p5/2P5/6P1/PP1PPP1P/RNB...</td>
-      <td>f1g2</td>
-      <td>WHITE</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>96</th>
-      <td>8/1P1Q4/3p2pk/4pp1p/PR2P2P/6P1/4RKB1/8 w - - 2 49</td>
-      <td>b7b8q</td>
-      <td>WHITE</td>
-    </tr>
-    <tr>
-      <th>97</th>
-      <td>1Q6/3Q4/3p2pk/4pp1p/PR2P2P/6P1/4RKB1/8 b - - 0 49</td>
-      <td>f5e4</td>
-      <td>BLACK</td>
-    </tr>
-    <tr>
-      <th>98</th>
-      <td>1Q6/3Q4/3p2pk/4p2p/PR2p2P/6P1/4RKB1/8 w - - 0 50</td>
-      <td>g2e4</td>
-      <td>WHITE</td>
-    </tr>
-    <tr>
-      <th>99</th>
-      <td>1Q6/3Q4/3p2pk/4p2p/PR2R2P/6P1/5KB1/8 b - - 0 50</td>
-      <td>g6g5</td>
-      <td>BLACK</td>
-    </tr>
-    <tr>
-      <th>100</th>
-      <td>1Q6/3Q4/3p3k/4p1pp/PR2R2P/6P1/5KB1/8 w - - 0 51</td>
-      <td>b8f8</td>
-      <td>WHITE</td>
-    </tr>
-  </tbody>
-</table>
-<p>101 rows × 3 columns</p>
-</div></div></div>
-</div>
 
     <script type="text/x-thebe-config">
     {

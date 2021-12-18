@@ -36,7 +36,7 @@ jobs:
     # Create table of contents file
     - name: Create Table of Contents
       run: |
-        jupyter-book toc from-project . > _toc.yml
+        jupyter-book toc from-project chess_idea.ipynb > _toc.yml
 
     # Build the book
     - name: Build the book

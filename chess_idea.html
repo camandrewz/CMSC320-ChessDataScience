@@ -506,30 +506,41 @@ Percentage of Total Games that Ended in Upset: 33.644 %
 <span class="n">chess_upsets_df</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;UPSET == True&quot;</span><span class="p">)</span>
 
 <span class="c1"># Two lists that will hold total ELO rankings, as well as the difference between ELO amongst opponents</span>
-<span class="n">elo_rankings</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">differences</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="c1"># Looping through dataframe to retrieve ELO rankings and differences</span>
-<span class="k">for</span> <span class="n">fen</span><span class="p">,</span> <span class="n">moves</span><span class="p">,</span> <span class="n">num_move_pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">winner</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">upset</span> <span class="ow">in</span> <span class="n">chess_upsets_df</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-    <span class="n">elo_rankings</span> <span class="o">+=</span> <span class="p">[</span><span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">]</span>
-    <span class="n">differences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">white_elo</span> <span class="o">-</span> <span class="n">black_elo</span><span class="p">))</span>
-
+<span class="n">elo_rankings</span> <span class="o">=</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">])</span>
+<span class="n">differences</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">])</span>
+<span class="n">number_of_move_pairs_upsets</span> <span class="o">=</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;NUM_MOVE_PAIRS&quot;</span><span class="p">]</span>
+<span class="n">number_of_move_pairs</span> <span class="o">=</span> <span class="n">chess_df</span><span class="p">[</span><span class="s2">&quot;NUM_MOVE_PAIRS&quot;</span><span class="p">]</span>
 
 <span class="c1"># Configuring multiple histogram plots to display the distribution of ELO rankings and differences</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tight_layout</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tight_layout</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
 
-<span class="c1"># Setting titles and labels for our plots</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">differences</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Difference in Opponent ELO Rankings when an Upset Occurs&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ELO Ranking&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Occurrences&quot;</span><span class="p">)</span>
+<span class="c1"># Histogram of differences between opponent ELOs in Upsets</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">differences</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Difference in Opponent ELO Rankings when an Upset Occurs&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ELO Ranking&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Occurrences&quot;</span><span class="p">)</span>
 
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">elo_rankings</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Total Distribution of ELO Rankings&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ELO Ranking&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Occurrences&quot;</span><span class="p">)</span>
+<span class="c1"># Histogram of total distribution of ELO rankings</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">elo_rankings</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Total Distribution of ELO Rankings&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ELO Ranking&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Occurrences&quot;</span><span class="p">)</span>
+
+<span class="c1"># Histogram of game lengths in Upsets</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">number_of_move_pairs_upsets</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Length of Game vs. Number of Upsets&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Move Pairs Made During the Game&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Matches Ending in Upsets&quot;</span><span class="p">)</span>
+
+<span class="c1"># Histogram of total game lengths</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">number_of_move_pairs</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+    <span class="s2">&quot;Total Distribution of Game Lengths Amongst 50,000 Simulations&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Move Pairs Made During the Game&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Matches&quot;</span><span class="p">)</span>
 
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -540,7 +551,7 @@ Percentage of Total Games that Ended in Upset: 33.644 %
 <img alt="_images/chess_idea_7_0.png" src="_images/chess_idea_7_0.png" />
 </div>
 </div>
-<p>Based on the plots above, we can confirm that ELO rankings are <em>mostly</em> drawn from a uniform distribution as we specified earlier. But what else is interesting is that it seems the number of upsets decreases exponentially with a larger difference in the ELO rankings of opponents. This makes sense as it is surely more likely that an upset would occur between closely ranked opponents, but nonetheless it can still happen even with differences larger than 2000!</p>
+<p>Based on the plots above, we can confirm that ELO rankings are <em>mostly</em> drawn from a uniform distribution as we specified earlier. But what else is interesting is that it seems the number of upsets decreases exponentially with a larger difference in the ELO rankings of opponents. This makes sense as it is surely more likely that an upset would occur between closely ranked opponents, but nonetheless it can still happen even with differences larger than 2000! The bottom row of charts also helps see if there is a possible correlation between the length of a game and the chances of it becoming an upset. However, as we can see it seems that the distribution of game lengths amongst upsets appears roughly similar to the overall distribution of game lengths, meaning that there does not appear to be a strong correlation between how long a game lasts and whether it will end in an upset.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>

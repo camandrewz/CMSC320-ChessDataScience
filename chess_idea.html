@@ -470,6 +470,20 @@
 <p>50000 rows × 8 columns</p>
 </div></div></div>
 </div>
+<p><strong>FEN Example</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Outputting a FEN as a chess board. This represents a board position at the end of a simulated match.</span>
+<span class="n">fen</span><span class="p">,</span> <span class="n">moves_df</span><span class="p">,</span> <span class="n">num_move_pairs</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">winner</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">upset</span> <span class="o">=</span> <span class="n">chess_df</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">board</span> <span class="o">=</span> <span class="n">chess</span><span class="o">.</span><span class="n">Board</span><span class="p">(</span><span class="n">fen</span><span class="p">)</span>
+<span class="n">board</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/chess_idea_6_0.svg" src="_images/chess_idea_6_0.svg" /></div>
+</div>
 <p><strong>What Now?</strong></p>
 <p>After that first cell has completed running, you should now be in possession of a Pandas DataFrame containing the results of 50,000 simulated chess matches. The DataFrame has 8 columns in total, with the first being the FEN (Forsyth–Edwards Notation, a standard way for describing board position) at the end of the game. The next column contains a CSV string representing all the individual moves made during that particular game. Now after running 50,000 simulations, we will have roughly over 6,000,000 moves to analyze. The DataFrame also contains a count of move pairs made during the match, the match result, winner, ELO rankings, and a boolean column describing whether the match ended in an upset, where the lower ranked engine beat the higher ranked.</p>
 <p>So now that we have a Pandas DataFrame containing the results of our simulation, we can begin to explore the data and determine whether there are any common traits amongst games that ended in an upset.</p>
@@ -543,7 +557,7 @@ Percentage of Total Games that Ended in Upset: 33.644 %
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/chess_idea_9_0.png" src="_images/chess_idea_9_0.png" />
+<img alt="_images/chess_idea_11_0.png" src="_images/chess_idea_11_0.png" />
 </div>
 </div>
 <p>Based on the plots above, we can confirm that ELO rankings are <em>mostly</em> drawn from a uniform distribution as we specified earlier. But what else is interesting is that it seems the number of upsets decreases exponentially with a larger difference in the ELO rankings of opponents. This makes sense as it is surely more likely that an upset would occur between closely ranked opponents, but nonetheless it can still happen even with differences larger than 2000! The bottom row of charts also helps see if there is a possible correlation between the length of a game and the chances of it becoming an upset. However, as we can see it seems that the distribution of game lengths amongst upsets appears roughly similar to the overall distribution of game lengths, meaning that there does not appear to be a strong correlation between how long a game lasts and whether it will end in an upset.</p>
@@ -1232,8 +1246,8 @@ Pawns:
   warnings.warn(
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;xgboost.core.DMatrix at 0x7f9799130bb0&gt;,
- &lt;xgboost.core.DMatrix at 0x7f98488667c0&gt;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;xgboost.core.DMatrix at 0x7f9799090970&gt;,
+ &lt;xgboost.core.DMatrix at 0x7f9799090b20&gt;)
 </pre></div>
 </div>
 </div>
@@ -1248,17 +1262,17 @@ Pawns:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[15:26:52] WARNING: ../src/learner.cc:1115: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective &#39;binary:logistic&#39; was changed from &#39;error&#39; to &#39;logloss&#39;. Explicitly set eval_metric if you&#39;d like to restore the old behavior.
-[0]	train-logloss:0.66549	test-logloss:0.67556
-[1]	train-logloss:0.64819	test-logloss:0.66604
-[2]	train-logloss:0.63393	test-logloss:0.65956
-[3]	train-logloss:0.62195	test-logloss:0.65497
-[4]	train-logloss:0.61205	test-logloss:0.65229
-[5]	train-logloss:0.60320	test-logloss:0.65070
-[6]	train-logloss:0.59542	test-logloss:0.65055
-[7]	train-logloss:0.58913	test-logloss:0.64968
-[8]	train-logloss:0.58463	test-logloss:0.64925
-[9]	train-logloss:0.57675	test-logloss:0.64872
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[15:30:41] WARNING: ../src/learner.cc:1115: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective &#39;binary:logistic&#39; was changed from &#39;error&#39; to &#39;logloss&#39;. Explicitly set eval_metric if you&#39;d like to restore the old behavior.
+[0]	train-logloss:0.66596	test-logloss:0.67512
+[1]	train-logloss:0.64703	test-logloss:0.66463
+[2]	train-logloss:0.63477	test-logloss:0.65952
+[3]	train-logloss:0.62377	test-logloss:0.65537
+[4]	train-logloss:0.61546	test-logloss:0.65443
+[5]	train-logloss:0.60893	test-logloss:0.65391
+[6]	train-logloss:0.60135	test-logloss:0.65256
+[7]	train-logloss:0.59319	test-logloss:0.65209
+[8]	train-logloss:0.58926	test-logloss:0.65139
+[9]	train-logloss:0.58474	test-logloss:0.65095
 </pre></div>
 </div>
 </div>
@@ -1296,29 +1310,29 @@ Pawns:
   </thead>
   <tbody>
     <tr>
-      <th>5102</th>
+      <th>7960</th>
       <td>1</td>
-      <td>0.620539</td>
+      <td>0.535638</td>
     </tr>
     <tr>
-      <th>971</th>
-      <td>1</td>
-      <td>0.764715</td>
-    </tr>
-    <tr>
-      <th>4457</th>
+      <th>1401</th>
       <td>0</td>
-      <td>0.502171</td>
+      <td>0.687621</td>
     </tr>
     <tr>
-      <th>12430</th>
+      <th>7455</th>
       <td>1</td>
-      <td>0.575397</td>
+      <td>0.758870</td>
     </tr>
     <tr>
-      <th>8361</th>
+      <th>4361</th>
+      <td>1</td>
+      <td>0.463170</td>
+    </tr>
+    <tr>
+      <th>14080</th>
       <td>0</td>
-      <td>0.434973</td>
+      <td>0.560705</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1326,29 +1340,29 @@ Pawns:
       <td>...</td>
     </tr>
     <tr>
-      <th>14642</th>
+      <th>15067</th>
       <td>1</td>
-      <td>0.368360</td>
+      <td>0.784410</td>
     </tr>
     <tr>
-      <th>4666</th>
+      <th>1135</th>
       <td>1</td>
-      <td>0.555054</td>
+      <td>0.623458</td>
     </tr>
     <tr>
-      <th>14785</th>
-      <td>0</td>
-      <td>0.538637</td>
+      <th>12737</th>
+      <td>1</td>
+      <td>0.579609</td>
     </tr>
     <tr>
-      <th>9062</th>
+      <th>5333</th>
       <td>1</td>
-      <td>0.594154</td>
+      <td>0.795973</td>
     </tr>
     <tr>
-      <th>16753</th>
+      <th>15544</th>
       <td>1</td>
-      <td>0.725771</td>
+      <td>0.760104</td>
     </tr>
   </tbody>
 </table>
@@ -1367,7 +1381,7 @@ Pawns:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/chess_idea_24_0.png" src="_images/chess_idea_24_0.png" />
+<img alt="_images/chess_idea_26_0.png" src="_images/chess_idea_26_0.png" />
 </div>
 </div>
 <p>For an applied look at how our model behaves in the real world, I have gathered a FEN from a 2010 match between Magnus Carlsen (ELO: 2810), and Sergey Karjakin (ELO: 2720), and I want to see if the model has a good guess as to who wins the match, based upon the FEN representing a board position roughly halfway through the match.\</p>
@@ -1385,7 +1399,7 @@ Pawns:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/chess_idea_26_0.svg" src="_images/chess_idea_26_0.svg" /></div>
+<img alt="_images/chess_idea_28_0.svg" src="_images/chess_idea_28_0.svg" /></div>
 </div>
 <p>Converting the FEN into a format we can predict from, and running our booster predict function.</p>
 <div class="cell docutils container">
@@ -1427,7 +1441,7 @@ Pawns:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Probability of White Winning: 47.06209599971771 %
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Probability of White Winning: 43.026772141456604 %
 </pre></div>
 </div>
 </div>

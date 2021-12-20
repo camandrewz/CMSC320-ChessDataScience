@@ -661,6 +661,9 @@ Pawns:
 <span class="k">else</span><span class="p">:</span>
     <span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">preexisting_data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
+    <span class="c1"># Dropping the index column as it is repetitive</span>
+    <span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">chess_moves_upsets_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+
 
 <span class="n">chess_moves_upsets_df</span>
 </pre></div>
@@ -685,7 +688,6 @@ Pawns:
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Unnamed: 0</th>
       <th>FEN_BEFORE_MOVE</th>
       <th>MOVE_MADE</th>
       <th>TURN</th>
@@ -697,7 +699,6 @@ Pawns:
   <tbody>
     <tr>
       <th>0</th>
-      <td>0</td>
       <td>1k1r3r/Nb1qn1b1/1p5p/2p1p1pP/2pP4/1P1B2R1/PB1P...</td>
       <td>d4c5</td>
       <td>WHITE</td>
@@ -707,7 +708,6 @@ Pawns:
     </tr>
     <tr>
       <th>1</th>
-      <td>1</td>
       <td>8/5p1k/5B1p/1P6/p6p/P2pK3/3P1P2/4R3 b - - 0 46</td>
       <td>h7g6</td>
       <td>BLACK</td>
@@ -717,7 +717,6 @@ Pawns:
     </tr>
     <tr>
       <th>2</th>
-      <td>2</td>
       <td>3q3r/5r1p/1pB2kp1/pPb2p2/P2p3P/4n1P1/7K/R2Q1R2...</td>
       <td>d1d3</td>
       <td>WHITE</td>
@@ -727,7 +726,6 @@ Pawns:
     </tr>
     <tr>
       <th>3</th>
-      <td>3</td>
       <td>3r1rk1/2Bb2pp/ppn1p1q1/5p2/PPpb4/5BP1/4QP1P/1R...</td>
       <td>c7d8</td>
       <td>WHITE</td>
@@ -737,7 +735,6 @@ Pawns:
     </tr>
     <tr>
       <th>4</th>
-      <td>4</td>
       <td>3r1k2/5p2/1p1N4/6p1/3R4/P2N1K2/1P6/8 b - - 7 39</td>
       <td>b6b5</td>
       <td>BLACK</td>
@@ -753,11 +750,9 @@ Pawns:
       <td>...</td>
       <td>...</td>
       <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
       <th>16817</th>
-      <td>16817</td>
       <td>r5k1/1q5p/b3p1p1/4br2/4N1QN/3nR2P/P5P1/3R3K b ...</td>
       <td>b7g7</td>
       <td>BLACK</td>
@@ -767,7 +762,6 @@ Pawns:
     </tr>
     <tr>
       <th>16818</th>
-      <td>16818</td>
       <td>5rk1/2qb1ppp/4pb2/8/R2P1P2/3P4/1P3PBP/3Q1RK1 w...</td>
       <td>a4c4</td>
       <td>WHITE</td>
@@ -777,7 +771,6 @@ Pawns:
     </tr>
     <tr>
       <th>16819</th>
-      <td>16819</td>
       <td>r3k2r/1b4pp/p1q2n1B/3pp3/1b1P1N1P/2NB3R/1PP2PP...</td>
       <td>e5e4</td>
       <td>BLACK</td>
@@ -787,7 +780,6 @@ Pawns:
     </tr>
     <tr>
       <th>16820</th>
-      <td>16820</td>
       <td>r5k1/1r3ppn/4p3/2Q3p1/4P1P1/5P2/7P/2B2RK1 b - ...</td>
       <td>g7g6</td>
       <td>BLACK</td>
@@ -797,7 +789,6 @@ Pawns:
     </tr>
     <tr>
       <th>16821</th>
-      <td>16821</td>
       <td>r2qkb1r/3b4/p1n1ppn1/2Np3p/BP2P1pP/Q1N3B1/P1P2...</td>
       <td>d5d4</td>
       <td>BLACK</td>
@@ -807,7 +798,7 @@ Pawns:
     </tr>
   </tbody>
 </table>
-<p>16822 rows × 7 columns</p>
+<p>16822 rows × 6 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -856,6 +847,11 @@ Pawns:
 <span class="k">else</span><span class="p">:</span>
     <span class="n">ml_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">preexisting_data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
+    <span class="c1"># Dropping the index column as it is repetitive</span>
+    <span class="n">ml_df</span> <span class="o">=</span> <span class="n">ml_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+
+<span class="n">ml_df</span> <span class="o">=</span> <span class="n">ml_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">,</span> <span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">])</span>
+<span class="n">ml_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ml_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
 <span class="n">ml_df</span>
 </pre></div>
 </div>
@@ -879,7 +875,6 @@ Pawns:
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Unnamed: 0</th>
       <th>A1</th>
       <th>A2</th>
       <th>A3</th>
@@ -889,7 +884,10 @@ Pawns:
       <th>A7</th>
       <th>A8</th>
       <th>B1</th>
+      <th>B2</th>
       <th>...</th>
+      <th>G8</th>
+      <th>H1</th>
       <th>H2</th>
       <th>H3</th>
       <th>H4</th>
@@ -897,15 +895,12 @@ Pawns:
       <th>H6</th>
       <th>H7</th>
       <th>H8</th>
-      <th>WHITE_ELO</th>
-      <th>BLACK_ELO</th>
       <th>WINNER</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>0</td>
       <td>0</td>
       <td>-1000000</td>
       <td>0</td>
@@ -915,7 +910,10 @@ Pawns:
       <td>0</td>
       <td>-5</td>
       <td>3</td>
+      <td>-3</td>
       <td>...</td>
+      <td>3</td>
+      <td>5</td>
       <td>0</td>
       <td>0</td>
       <td>9</td>
@@ -923,13 +921,11 @@ Pawns:
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>903</td>
-      <td>549</td>
-      <td>-1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -943,17 +939,16 @@ Pawns:
       <td>0</td>
       <td>0</td>
       <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>5</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1360</td>
-      <td>2382</td>
       <td>1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -963,7 +958,10 @@ Pawns:
       <td>0</td>
       <td>-5</td>
       <td>0</td>
+      <td>0</td>
       <td>...</td>
+      <td>1000000</td>
+      <td>5</td>
       <td>0</td>
       <td>0</td>
       <td>9</td>
@@ -971,13 +969,10 @@ Pawns:
       <td>5</td>
       <td>0</td>
       <td>0</td>
-      <td>1494</td>
-      <td>277</td>
-      <td>-1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>3</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -987,7 +982,10 @@ Pawns:
       <td>-1000000</td>
       <td>0</td>
       <td>0</td>
+      <td>0</td>
       <td>...</td>
+      <td>1</td>
+      <td>0</td>
       <td>5</td>
       <td>0</td>
       <td>0</td>
@@ -995,19 +993,17 @@ Pawns:
       <td>5</td>
       <td>1000000</td>
       <td>0</td>
-      <td>1103</td>
-      <td>383</td>
-      <td>-1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>4</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>-5</td>
       <td>0</td>
       <td>-1000000</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -1019,8 +1015,8 @@ Pawns:
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>674</td>
-      <td>1125</td>
+      <td>0</td>
+      <td>0</td>
       <td>1</td>
     </tr>
     <tr>
@@ -1049,7 +1045,6 @@ Pawns:
     </tr>
     <tr>
       <th>16817</th>
-      <td>16817</td>
       <td>-5</td>
       <td>0</td>
       <td>0</td>
@@ -1059,7 +1054,10 @@ Pawns:
       <td>-1000000</td>
       <td>0</td>
       <td>0</td>
+      <td>-9</td>
       <td>...</td>
+      <td>0</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>5</td>
@@ -1067,13 +1065,10 @@ Pawns:
       <td>0</td>
       <td>0</td>
       <td>1000000</td>
-      <td>1170</td>
-      <td>569</td>
-      <td>-1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>16818</th>
-      <td>16818</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -1083,7 +1078,10 @@ Pawns:
       <td>-1000000</td>
       <td>0</td>
       <td>0</td>
+      <td>0</td>
       <td>...</td>
+      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>9</td>
@@ -1091,13 +1089,10 @@ Pawns:
       <td>5</td>
       <td>1000000</td>
       <td>0</td>
-      <td>1442</td>
-      <td>1031</td>
-      <td>-1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>16819</th>
-      <td>16819</td>
       <td>-5</td>
       <td>0</td>
       <td>0</td>
@@ -1107,7 +1102,10 @@ Pawns:
       <td>0</td>
       <td>-5</td>
       <td>0</td>
+      <td>-3</td>
       <td>...</td>
+      <td>0</td>
+      <td>5</td>
       <td>0</td>
       <td>0</td>
       <td>9</td>
@@ -1115,13 +1113,10 @@ Pawns:
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>931</td>
-      <td>1064</td>
       <td>1</td>
     </tr>
     <tr>
       <th>16820</th>
-      <td>16820</td>
       <td>-5</td>
       <td>0</td>
       <td>0</td>
@@ -1131,7 +1126,10 @@ Pawns:
       <td>-1000000</td>
       <td>0</td>
       <td>0</td>
+      <td>-5</td>
       <td>...</td>
+      <td>1</td>
+      <td>0</td>
       <td>0</td>
       <td>3</td>
       <td>0</td>
@@ -1139,13 +1137,10 @@ Pawns:
       <td>5</td>
       <td>1000000</td>
       <td>0</td>
-      <td>1308</td>
-      <td>2206</td>
       <td>1</td>
     </tr>
     <tr>
       <th>16821</th>
-      <td>16821</td>
       <td>-5</td>
       <td>0</td>
       <td>0</td>
@@ -1155,7 +1150,10 @@ Pawns:
       <td>0</td>
       <td>-5</td>
       <td>0</td>
+      <td>0</td>
       <td>...</td>
+      <td>0</td>
+      <td>5</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -1163,16 +1161,164 @@ Pawns:
       <td>0</td>
       <td>0</td>
       <td>5</td>
-      <td>267</td>
-      <td>2284</td>
       <td>1</td>
     </tr>
   </tbody>
 </table>
-<p>16822 rows × 68 columns</p>
+<p>16822 rows × 65 columns</p>
 </div></div></div>
 </div>
 <p><strong>XGBoost</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">ml_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ml_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">)</span>
+
+<span class="n">dmat_train</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">ml_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;WINNER&quot;</span><span class="p">))</span>
+<span class="n">dmat_test</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">ml_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;WINNER&quot;</span><span class="p">))</span>
+
+<span class="n">dmat_train</span><span class="p">,</span> <span class="n">dmat_test</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;xgboost.core.DMatrix at 0x7f50b3121640&gt;,
+ &lt;xgboost.core.DMatrix at 0x7f5163098dc0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">booster</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">({</span><span class="s2">&quot;gpu_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;objective&quot;</span><span class="p">:</span> <span class="s2">&quot;binary:hinge&quot;</span><span class="p">,</span> <span class="s2">&quot;eval_metric&quot;</span><span class="p">:</span><span class="s2">&quot;error&quot;</span><span class="p">},</span> <span class="n">dmat_train</span><span class="p">,</span> <span class="n">evals</span><span class="o">=</span><span class="p">[(</span><span class="n">dmat_train</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">),</span> <span class="p">(</span><span class="n">dmat_test</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0]	train-error:0.39414	test-error:0.39265
+[1]	train-error:0.36220	test-error:0.39499
+[2]	train-error:0.32733	test-error:0.39391
+[3]	train-error:0.31154	test-error:0.39337
+[4]	train-error:0.29379	test-error:0.39265
+[5]	train-error:0.26868	test-error:0.39175
+[6]	train-error:0.24676	test-error:0.38977
+[7]	train-error:0.22085	test-error:0.38617
+[8]	train-error:0.19361	test-error:0.37986
+[9]	train-error:0.17187	test-error:0.37482
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cudf</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Actuals&quot;</span><span class="p">:</span><span class="n">y_test</span><span class="p">,</span> <span class="s2">&quot;Prediction&quot;</span><span class="p">:</span><span class="n">booster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dmat_test</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Actuals</th>
+      <th>Prediction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4875</th>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>12847</th>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>903</th>
+      <td>0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>13473</th>
+      <td>0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>15008</th>
+      <td>0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1504</th>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3879</th>
+      <td>0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>16634</th>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>11996</th>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>8078</th>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5552 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xgb</span><span class="o">.</span><span class="n">plot_importance</span><span class="p">(</span><span class="n">booster</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tree.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/chess_idea_20_0.png" src="_images/chess_idea_20_0.png" />
+</div>
+</div>
 <div class="toctree-wrapper compound">
 </div>
 </div>

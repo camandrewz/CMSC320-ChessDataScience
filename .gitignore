@@ -3,3 +3,6 @@ Non-Split-Data/
 
 # Ignore Stockfish Directory
 stockfish_14.1_win_x64_avx2/
+
+# Ignore VS Code Settings
+.vscode/

@@ -183,8 +183,13 @@
 <p><strong>Name: Cameron Andrews</strong></p>
 <p><strong>Introduction:</strong></p>
 <p>This aim of this project is to explore an interesting phenomenon within the world of chess, yet it will not focus on any human chess players. Instead this project will focus on chess matches between two opposing chess engines, of different and randomly selected ELO ratings.</p>
-<p>At first you may believe that the chess engine with a higher ELO rating would always win, simply because chess is known to be a game of perfect information, and therefore the more skilled engine should win against a lesser skilled engine every time. However, by simulating thousands of games under these circumstances, it is noticeable that this is not the case, and that even when there is a large discrepancy amongst the two ELOs, an upset is still possible. This project will aim to analyze the occurrence of upsets between chess engines, and determine whether there may be telling signs of when an upset is possible, and perhaps even train a model to become the upset master.</p>
+<p>At first you may believe that the chess engine with a higher ELO rating would always win, simply because chess is known to be a game of perfect information, and therefore the more skilled engine should win against a lesser skilled engine every time. However, by simulating thousands of games under these circumstances, it is noticeable that this is not the case, and that even when there is a large discrepancy amongst the two ELOs, an upset is still possible. This project will aim to analyze the occurrence of upsets between chess engines, determine whether there may be telling signs of when an upset is possible, and attempt to train a model that can determine who is more likely to win given a board position.</p>
 <p>But first, we must gather the data!</p>
+<p><strong>Important Note Regarding Project Dependencies:</strong></p>
+<p>During the creation of this notebook I came to the conclusion that I needed a way to significantly increase the speed of my data processing, especially since some points of this tutorial deal with over a million rows at once. Thus I have decided to utilize the RAPIDS toolkit, which allows me to utilize many of the popular Python data science libraries, but with GPU support. In my personal machine I have a NVIDIA 3080 Ti GPU, and wanted to see if I could harness its power to help speed up runtime. However, if you are without a GPU, this project can use a CPU instead, albeit it will run slower.</p>
+<p>RAPIDS: <a class="reference external" href="https://rapids.ai/">https://rapids.ai/</a></p>
+<p>So when you see “cudf” in this project, that is referring to the RAPIDS version of Pandas. It is functionally almost entirely the same but instead uses GPU compute power instead of CPU. This also helps later in the project when I train an XGBoost classifier, again with GPU enabled support.</p>
+<p>This also means that this notebook requires a Linux environment to run. This is because the RAPIDS toolkit is currently only supported on Linux. I personally have a Windows machine, and utilized WSL2 (Windows Subsystem for Linux) to develop and run this notebook. I would recommend checking it out if interested &#64; <a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install">https://docs.microsoft.com/en-us/windows/wsl/install</a>.</p>
 <p><strong>Data Creation:</strong></p>
 <p>This project will utilize a famous chess engine called “Stockfish”, and in the process we will create two different engines; one to play the white pieces, and one for the black pieces. At the beginning of each simulation we will randomly select an ELO rating between 200 and 2500 for each engine. For reference, the highest ranked human chess player in the world, Magnus Carlsen, currently has an ELO floating around 2800.</p>
 <p>First, in order to run this script you will need to have access to the Stockfish executable (Downloadable from their website &#64; <a class="reference external" href="https://stockfishchess.org/download">https://stockfishchess.org/download</a>). After downloading, you will need to specify the executable path as seen in the code below.</p>
@@ -310,22 +315,163 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1905</span><span class="o">/</span><span class="mf">2821283497.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">glob</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">cudf</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;cudf&#39;
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FEN</th>
+      <th>MOVES_DF</th>
+      <th>NUM_MOVE_PAIRS</th>
+      <th>RESULT</th>
+      <th>WINNER</th>
+      <th>WHITE_ELO</th>
+      <th>BLACK_ELO</th>
+      <th>UPSET</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2k1r3/Qb6/1p5p/2p4P/2P5/2B5/P2Pp3/R3Kq2 w - - ...</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>40</td>
+      <td>CHECKMATE</td>
+      <td>BLACK</td>
+      <td>903</td>
+      <td>549</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2rqk2r/1p1b2p1/pn2pbQ1/3p1n1p/5P1P/BPp2N1N/P1P...</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>27</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>2417</td>
+      <td>2137</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2R5/5k1R/8/2K2P1P/2P5/2B5/8/b7 b - - 1 63</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>63</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>1408</td>
+      <td>233</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>r1b4r/ppb1pQk1/3qn1Bp/2p4P/5PP1/2P1N3/PP3R2/R1...</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>21</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>2420</td>
+      <td>316</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7Q/8/7k/3K1Q2/3P3B/8/8/8 b - - 4 91</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>91</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>1360</td>
+      <td>2382</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>49995</th>
+      <td>5k2/5Q2/3P3p/p7/1qNB4/8/6PP/5R1K b - - 0 57</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>57</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>2062</td>
+      <td>1690</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>49996</th>
+      <td>3Q1k2/5p1p/1r2b2P/4P3/4P3/2r2PK1/8/8 b - - 1 43</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>43</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>2132</td>
+      <td>267</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>49997</th>
+      <td>5Q1R/7n/5p1k/5Pp1/6KP/8/8/8 b - - 4 63</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>63</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>1308</td>
+      <td>2206</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>49998</th>
+      <td>8/2p1k3/1b6/n3p2P/4P3/3P1bP1/6qK/8 w - - 0 51</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>51</td>
+      <td>CHECKMATE</td>
+      <td>BLACK</td>
+      <td>1097</td>
+      <td>1727</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>49999</th>
+      <td>2rq3r/3R1Q2/pN3pk1/7p/B3PBpn/2P2P2/P4P2/5RK1 b...</td>
+      <td>,FEN_BEFORE_MOVE,MOVE_MADE,TURN\r\n0,rnbqkbnr/...</td>
+      <td>35</td>
+      <td>CHECKMATE</td>
+      <td>WHITE</td>
+      <td>267</td>
+      <td>2284</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p>50000 rows × 8 columns</p>
+</div></div></div>
 </div>
 <p><strong>What Now?</strong></p>
-<p>After that first cell has completed running, you should now be in possession of a Pandas DataFrame containing the results of 50,000 simulated chess matches. The DataFrame has 8 columns in total, with the first being the FEN (Forsyth–Edwards Notation, a standard way for describing board position) at the end of the game. The next column contains a separate DataFrame with all the individual moves made during that particular game. Now after running 50,000 simulations, we will have over 6,000,000 moves to analyze. The DataFrame also contains a count of move pairs made during the match, the match result, winner, ELO rankings, and a boolean column describing whether the match ended in an upset, where the lower ranked engine beat the higher ranked.</p>
+<p>After that first cell has completed running, you should now be in possession of a Pandas DataFrame containing the results of 50,000 simulated chess matches. The DataFrame has 8 columns in total, with the first being the FEN (Forsyth–Edwards Notation, a standard way for describing board position) at the end of the game. The next column contains a CSV string representing all the individual moves made during that particular game. Now after running 50,000 simulations, we will have roughly over 6,000,000 moves to analyze. The DataFrame also contains a count of move pairs made during the match, the match result, winner, ELO rankings, and a boolean column describing whether the match ended in an upset, where the lower ranked engine beat the higher ranked.</p>
 <p>So now that we have a Pandas DataFrame containing the results of our simulation, we can begin to explore the data and determine whether there are any common traits amongst games that ended in an upset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -348,6 +494,8 @@ Percentage of Total Games that Ended in Upset: 33.644 %
 </div>
 </div>
 <p>Clearly it appears that a fairly significant number of games end up in an upset, and in my testing it also seems that the percentage of upsets remains around 33% regardless of the number of simulations ran.</p>
+<p><strong>Plotting:</strong></p>
+<p>At this point I have a variety of different hypotheses concerning the likeliness of a chess upset, so I am going to go ahead and visualize some of our data to see if there’s any truth to my ideas. To do this, I will create histogram plots of both the differences amongst ELO ratings of opponents, as well as the total distribution of ELO rankings to see if it is truly uniform. I will also go ahead and plot two histograms representing the distribution of game lengths amongst upsets only, as well as the total distribution of upsets.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtering the pandas dataframe to only see games that ended in an upset</span>
@@ -395,7 +543,7 @@ Percentage of Total Games that Ended in Upset: 33.644 %
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/chess_idea_7_0.png" src="_images/chess_idea_7_0.png" />
+<img alt="_images/chess_idea_9_0.png" src="_images/chess_idea_9_0.png" />
 </div>
 </div>
 <p>Based on the plots above, we can confirm that ELO rankings are <em>mostly</em> drawn from a uniform distribution as we specified earlier. But what else is interesting is that it seems the number of upsets decreases exponentially with a larger difference in the ELO rankings of opponents. This makes sense as it is surely more likely that an upset would occur between closely ranked opponents, but nonetheless it can still happen even with differences larger than 2000! The bottom row of charts also helps see if there is a possible correlation between the length of a game and the chances of it becoming an upset. However, as we can see it seems that the distribution of game lengths amongst upsets appears roughly similar to the overall distribution of game lengths, meaning that there does not appear to be a strong correlation between how long a game lasts and whether it will end in an upset.</p>
@@ -486,23 +634,33 @@ Pawns:
 <p>This section will focus on one method of discovering possible common attributes amongst upsets, and will look to build a model that can output a value representative of who is more likely to win a game at any given board position. Its inputs will include the current board position, who’s turn it is, and the players’ ELO rankings. But first we must create a DataFrame of all our board positions, in a way that a model could understand.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preexisting_data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;Data/chess_moves_upsets_df.csv&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER_NUM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;WHITE&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;BLACK&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">preexisting_data_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 
-<span class="k">for</span> <span class="n">fen</span><span class="p">,</span> <span class="n">moves_df</span><span class="p">,</span> <span class="n">num_move_pairs</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">winner_num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;FEN&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;MOVES_DF&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;NUM_MOVE_PAIRS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> 
-                                                                        <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER_NUM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()):</span>
+    <span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
-    <span class="n">middle_point</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">num_move_pairs</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">winning_moves_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">moves_df</span><span class="p">))[</span><span class="n">middle_point</span><span class="p">:</span><span class="n">middle_point</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">winning_moves_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">white_elo</span>
-    <span class="n">winning_moves_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">black_elo</span>
-    <span class="n">winning_moves_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winner_num</span>
+    <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER_NUM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">&quot;WHITE&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;BLACK&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
 
-    <span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">chess_moves_upsets_df</span><span class="p">,</span> <span class="n">winning_moves_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">fen</span><span class="p">,</span> <span class="n">moves_df</span><span class="p">,</span> <span class="n">num_move_pairs</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">winner_num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;FEN&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;MOVES_DF&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;NUM_MOVE_PAIRS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> 
+                                                                            <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER_NUM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()):</span>
 
-<span class="c1"># Dropping the index column as it is repetitive</span>
-<span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">chess_moves_upsets_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">middle_point</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">num_move_pairs</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">winning_moves_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">moves_df</span><span class="p">))[</span><span class="n">middle_point</span><span class="p">:</span><span class="n">middle_point</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">winning_moves_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">white_elo</span>
+        <span class="n">winning_moves_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">black_elo</span>
+        <span class="n">winning_moves_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winner_num</span>
+
+        <span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">chess_moves_upsets_df</span><span class="p">,</span> <span class="n">winning_moves_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Dropping the index column as it is repetitive</span>
+    <span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">chess_moves_upsets_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">chess_moves_upsets_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Data/chess_moves_upsets_df.csv&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">chess_moves_upsets_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">preexisting_data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
 
 <span class="n">chess_moves_upsets_df</span>
 </pre></div>
@@ -527,6 +685,7 @@ Pawns:
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>Unnamed: 0</th>
       <th>FEN_BEFORE_MOVE</th>
       <th>MOVE_MADE</th>
       <th>TURN</th>
@@ -538,6 +697,7 @@ Pawns:
   <tbody>
     <tr>
       <th>0</th>
+      <td>0</td>
       <td>1k1r3r/Nb1qn1b1/1p5p/2p1p1pP/2pP4/1P1B2R1/PB1P...</td>
       <td>d4c5</td>
       <td>WHITE</td>
@@ -547,6 +707,7 @@ Pawns:
     </tr>
     <tr>
       <th>1</th>
+      <td>1</td>
       <td>8/5p1k/5B1p/1P6/p6p/P2pK3/3P1P2/4R3 b - - 0 46</td>
       <td>h7g6</td>
       <td>BLACK</td>
@@ -556,6 +717,7 @@ Pawns:
     </tr>
     <tr>
       <th>2</th>
+      <td>2</td>
       <td>3q3r/5r1p/1pB2kp1/pPb2p2/P2p3P/4n1P1/7K/R2Q1R2...</td>
       <td>d1d3</td>
       <td>WHITE</td>
@@ -565,6 +727,7 @@ Pawns:
     </tr>
     <tr>
       <th>3</th>
+      <td>3</td>
       <td>3r1rk1/2Bb2pp/ppn1p1q1/5p2/PPpb4/5BP1/4QP1P/1R...</td>
       <td>c7d8</td>
       <td>WHITE</td>
@@ -574,6 +737,7 @@ Pawns:
     </tr>
     <tr>
       <th>4</th>
+      <td>4</td>
       <td>3r1k2/5p2/1p1N4/6p1/3R4/P2N1K2/1P6/8 b - - 7 39</td>
       <td>b6b5</td>
       <td>BLACK</td>
@@ -589,9 +753,11 @@ Pawns:
       <td>...</td>
       <td>...</td>
       <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
       <th>16817</th>
+      <td>16817</td>
       <td>r5k1/1q5p/b3p1p1/4br2/4N1QN/3nR2P/P5P1/3R3K b ...</td>
       <td>b7g7</td>
       <td>BLACK</td>
@@ -601,6 +767,7 @@ Pawns:
     </tr>
     <tr>
       <th>16818</th>
+      <td>16818</td>
       <td>5rk1/2qb1ppp/4pb2/8/R2P1P2/3P4/1P3PBP/3Q1RK1 w...</td>
       <td>a4c4</td>
       <td>WHITE</td>
@@ -610,6 +777,7 @@ Pawns:
     </tr>
     <tr>
       <th>16819</th>
+      <td>16819</td>
       <td>r3k2r/1b4pp/p1q2n1B/3pp3/1b1P1N1P/2NB3R/1PP2PP...</td>
       <td>e5e4</td>
       <td>BLACK</td>
@@ -619,6 +787,7 @@ Pawns:
     </tr>
     <tr>
       <th>16820</th>
+      <td>16820</td>
       <td>r5k1/1r3ppn/4p3/2Q3p1/4P1P1/5P2/7P/2B2RK1 b - ...</td>
       <td>g7g6</td>
       <td>BLACK</td>
@@ -628,6 +797,7 @@ Pawns:
     </tr>
     <tr>
       <th>16821</th>
+      <td>16821</td>
       <td>r2qkb1r/3b4/p1n1ppn1/2Np3p/BP2P1pP/Q1N3B1/P1P2...</td>
       <td>d5d4</td>
       <td>BLACK</td>
@@ -637,51 +807,372 @@ Pawns:
     </tr>
   </tbody>
 </table>
-<p>16822 rows × 6 columns</p>
+<p>16822 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">piece_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">Infinity</span><span class="p">,</span> <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-             <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">Infinity</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preexisting_data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;Data/ml_df.csv&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">columns_combo</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">,</span> <span class="s2">&quot;8&quot;</span><span class="p">]))</span>
-<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">columns_combo</span><span class="p">]</span>
-<span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">)</span>
-<span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">)</span>
-<span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;WINNER&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">preexisting_data_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 
-<span class="n">ml_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">piece_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="mi">1000000</span><span class="p">,</span> <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1000000</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
 
-<span class="k">for</span> <span class="n">fen</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">winner_num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;FEN_BEFORE_MOVE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> \
-                                                 <span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()):</span>
-                                                 
-    <span class="n">squares</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fen</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">columns_combo</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">,</span> <span class="s2">&quot;8&quot;</span><span class="p">]))</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">columns_combo</span><span class="p">]</span>
+    <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">)</span>
+    <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">)</span>
+    <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;WINNER&quot;</span><span class="p">)</span>
 
-    <span class="n">new_row</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">col_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ml_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">square</span> <span class="ow">in</span> <span class="n">squares</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">square</span><span class="p">)):</span>
-                <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">columns</span><span class="p">[</span><span class="n">col_index</span><span class="p">]:</span><span class="mi">0</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">fen</span><span class="p">,</span> <span class="n">white_elo</span><span class="p">,</span> <span class="n">black_elo</span><span class="p">,</span> <span class="n">winner_num</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;FEN_BEFORE_MOVE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> \
+                                                    <span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">chess_moves_upsets_df</span><span class="p">[</span><span class="s2">&quot;WINNER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()):</span>
+                                                    
+        <span class="n">squares</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fen</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">new_row</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">col_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">square</span> <span class="ow">in</span> <span class="n">squares</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">square</span><span class="p">)):</span>
+                    <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">columns</span><span class="p">[</span><span class="n">col_index</span><span class="p">]:</span><span class="mi">0</span><span class="p">})</span>
+                    <span class="n">col_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">columns</span><span class="p">[</span><span class="n">col_index</span><span class="p">]:</span><span class="n">piece_map</span><span class="p">[</span><span class="n">square</span><span class="p">]})</span>
                 <span class="n">col_index</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">columns</span><span class="p">[</span><span class="n">col_index</span><span class="p">]:</span><span class="n">piece_map</span><span class="p">[</span><span class="n">square</span><span class="p">]})</span>
-            <span class="n">col_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">:</span><span class="n">white_elo</span><span class="p">})</span>
+        <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">:</span><span class="n">black_elo</span><span class="p">})</span>
+        <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;WINNER&quot;</span><span class="p">:</span><span class="n">winner_num</span><span class="p">})</span>
 
-    <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;WHITE_ELO&quot;</span><span class="p">:</span><span class="n">white_elo</span><span class="p">})</span>
-    <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;BLACK_ELO&quot;</span><span class="p">:</span><span class="n">black_elo</span><span class="p">})</span>
-    <span class="n">new_row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;WINNER&quot;</span><span class="p">:</span><span class="n">winner_num</span><span class="p">})</span>
+        <span class="n">ml_df</span> <span class="o">=</span> <span class="n">ml_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">ml_df</span> <span class="o">=</span> <span class="n">ml_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_row</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ml_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Data/ml_df.csv&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ml_df</span> <span class="o">=</span> <span class="n">cudf</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">preexisting_data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 <span class="n">ml_df</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>A1</th>
+      <th>A2</th>
+      <th>A3</th>
+      <th>A4</th>
+      <th>A5</th>
+      <th>A6</th>
+      <th>A7</th>
+      <th>A8</th>
+      <th>B1</th>
+      <th>...</th>
+      <th>H2</th>
+      <th>H3</th>
+      <th>H4</th>
+      <th>H5</th>
+      <th>H6</th>
+      <th>H7</th>
+      <th>H8</th>
+      <th>WHITE_ELO</th>
+      <th>BLACK_ELO</th>
+      <th>WINNER</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>-1000000</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9</td>
+      <td>1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>903</td>
+      <td>549</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1360</td>
+      <td>2382</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-9</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1494</td>
+      <td>277</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>-1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>1000000</td>
+      <td>0</td>
+      <td>1103</td>
+      <td>383</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>-1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>674</td>
+      <td>1125</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>16817</th>
+      <td>16817</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1000000</td>
+      <td>1170</td>
+      <td>569</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>16818</th>
+      <td>16818</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>-1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9</td>
+      <td>0</td>
+      <td>5</td>
+      <td>1000000</td>
+      <td>0</td>
+      <td>1442</td>
+      <td>1031</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <th>16819</th>
+      <td>16819</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9</td>
+      <td>1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>931</td>
+      <td>1064</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16820</th>
+      <td>16820</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>1000000</td>
+      <td>0</td>
+      <td>1308</td>
+      <td>2206</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16821</th>
+      <td>16821</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-9</td>
+      <td>-1000000</td>
+      <td>-3</td>
+      <td>0</td>
+      <td>-5</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1000000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>267</td>
+      <td>2284</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>16822 rows × 68 columns</p>
+</div></div></div>
 </div>
+<p><strong>XGBoost</strong></p>
 <div class="toctree-wrapper compound">
 </div>
 </div>
